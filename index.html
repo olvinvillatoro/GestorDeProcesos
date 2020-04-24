@@ -4,45 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Gestor de Procesos</title>
-
-    <style>
-    	th {
-    		border: 2px solid black;
-    		width: 100px;
-    	}
-    	td {
-    		text-align: center;
-    	}
-    </style>
-
+    <title>Leer Archivo</title>
 </head>
 <body>
     <input class="proceso" type="file">
-	<br><br>
-	<input type="button" onclick="crearProceso();" value="Crear">
-	<div>
-		<table>
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Estado</th>
-					<th>Prioridad</th>
-					<th>cant. instr.</th>
-					<th>Bloqueo</th>
-					<th>Evento</th>
-				</tr>
-			</thead>
-			<tbody  id="procesos">
-
-				<!--aqui se muestra la lista de procesos-->
-				
-			</tbody>
-		</table>
-		
-	</div>
-
     <script src="js/readText.js"></script>
-    <script src="js/cargarProcesos.js"></script>
 </body>
 </html>
