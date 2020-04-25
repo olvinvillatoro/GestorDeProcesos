@@ -190,9 +190,6 @@ function crearBCP(){
 		success:function(resultado){
 				console.log(resultado);
 				},
-		error:function(resultado){
-			console.log(resultado);
-		}
 	});
 }
 
@@ -200,14 +197,33 @@ $(document).ready(function(){
 	$.ajax({
 		url: "ajax/acciones.php?accion=ListarBCP",
 		dataType:"json",
-        data:parametros,
-        type : "POST",
-		success:function(resultado){
-			console.log(resultado);
-			},
-		error:function(resultado){
-			console.log(resultado);
-		}
+        //data:parametros,
+        method : "POST",
+		success:function(respuesta){
+			$("#Procesos").html(``);
+			for( var i= 0; i<respuesta.length;i++){
+				$("#Procesos").append(`<option value="${i}">${respuesta[i].NombreProceso}</option>`);
+				$("#BCPProcesos").append(`
+				<tr>
+					<td>${i}</td>
+					<td>${respuesta[i].NombreProceso}</td>
+					<td>${respuesta[i].CantidadDeProcesos}</td>
+				</tr>
+				`)
+			}
+		},
 	});
 	document.getElementById("Procesos").innerHTML = "";
 })
+function holis(){
+	$.ajax({
+		url: "ajax/acciones.php?accion=ListarBCP",
+		dataType:"json",
+        //data:parametros,
+        method : "POST",
+		success:function(respuesta){
+			console.log(respuesta);
+				
+			},
+	});
+}

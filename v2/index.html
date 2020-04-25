@@ -34,11 +34,25 @@
 		<!--h5 style="margin-bottom: 0px;">Ingrese Valores Numericos Cantidad De Ciclos</h5-->
 
 		<input type="text" placeholder="ciclos" id="ciclos">
-		<select name="" id="Procesos"></select>
+		<select name="" id="Procesos" onclick="holis()"></select>
 		<input type="button" onclick="crearBCP()" value="Nuevo BCP">
 		<input type="button" onclick="cargarProcesos();" value="Cargar">
 		<input type="button" onclick="crearProceso();" value="Nuevo">
 		<br><br><br>
+	</div>
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nombre BCP</th>
+					<th>Procesos</th>
+				</tr>
+			</thead>
+			<tbody id="BCPProcesos">
+				<!--aqui se mostraran los banco de control de proceso-->
+			</tbody>
+		</table>
 	</div>
 	<!--aqui se muestra la lista de procesos con toda su informacion-->
 	<table>

@@ -54,13 +54,13 @@ case '3'://este lo cree en caso de necsitar borrar todos los datos de un archivo
 		$json_arr = json_decode($data, true);
 		$Indices = Count($json_arr);
 		$codigo = $Indices + 1;
-		$json_arr[] = array('NombreProceso'=>'Proceso_'.$codigo.'','CantidadDeProcesos'=>rand(1,10));
+		$json_arr[] = array('NombreProceso'=>'BCP_'.$codigo.'','CantidadDeProcesos'=>rand(1,10));
 		file_put_contents("../Data/ProcesosJson/Procesos.json",json_encode($json_arr));
 		
 	break;
 	case 'ListarBCP':
 		include("../class/Proceso.php");
-		Proceso::RetornarBCP();
+		echo Proceso::RetornarBCP();
 	break;
 }
 	
