@@ -1,4 +1,3 @@
-//esta funcion carga la info del txt a la tabla principal
 function cargarProcesos(){
 
 	$.ajax({
@@ -184,3 +183,31 @@ function terminado(res){
 				}					
 		}
 }
+function crearBCP(){
+	$.ajax({
+		url: "ajax/acciones.php?accion=CrearBCP",
+		dataType: 'json',
+		success:function(resultado){
+				console.log(resultado);
+				},
+		error:function(resultado){
+			console.log(resultado);
+		}
+	});
+}
+
+$(document).ready(function(){
+	$.ajax({
+		url: "ajax/acciones.php?accion=ListarBCP",
+		dataType:"json",
+        data:parametros,
+        type : "POST",
+		success:function(resultado){
+			console.log(resultado);
+			},
+		error:function(resultado){
+			console.log(resultado);
+		}
+	});
+	document.getElementById("Procesos").innerHTML = "";
+})

@@ -30,10 +30,16 @@
 
 </head>
 <body>
-	<input type="text" placeholder="ciclos" id="ciclos">
-	<input type="button" onclick="cargarProcesos();" value="Cargar">
-	<input type="button" onclick="crearProceso();" value="Nuevo">
-	<br><br><br>
+	<div>
+		<!--h5 style="margin-bottom: 0px;">Ingrese Valores Numericos Cantidad De Ciclos</h5-->
+
+		<input type="text" placeholder="ciclos" id="ciclos">
+		<select name="" id="Procesos"></select>
+		<input type="button" onclick="crearBCP()" value="Nuevo BCP">
+		<input type="button" onclick="cargarProcesos();" value="Cargar">
+		<input type="button" onclick="crearProceso();" value="Nuevo">
+		<br><br><br>
+	</div>
 	<!--aqui se muestra la lista de procesos con toda su informacion-->
 	<table>
 			<thead>
