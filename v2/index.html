@@ -19,22 +19,20 @@
 			background-color: white;
 			border: 1px solid black;
     	}
-    	.estado{
-    		position: absolute;
-    		top: 50%;
-    		z-index: 3;
-    		display: inline-block;
-    	}
-    	.estadoB{
-    		position: absolute;
-    		top: 50%;
-    		left: 60%;
-    		z-index: 3;
-    		display: inline-block;
-    		color: rgb(255, 198, 11);
+    	.estadoB th{
+    		color: yellow;
     	}
 		table{
 			width: 100%;
+		}
+		.cc{
+			display: inline-block;
+		}
+		hr{
+			height:10px;
+			border-width:0;
+			color:gray;
+			background-color:#089292;
 		}
     </style>
 
@@ -42,94 +40,106 @@
 <body style="background-image: linear-gradient(177deg,rgb(233, 241, 249),#37383b); background-attachment: fixed; color: black;">
   <div class="container-fluid">
 	<div class="row">
-	  	<div class="col-12 row" style=" margin-left: 0px; margin-right: 0px; ">
-	  		<h5 class="col-12" style="margin-bottom: 15px; text-align: center; margin-top: 15px; font-size: xx-large;">Banco de Control De Proceso</h5>
-	  		<select class="form-control form-control-lg col-8" style="margin-bottom: 25px;" name="" id="Procesos" onclick="GenerarProcesosTablas()"></select>
-			<input class="col-4 btn btn-info" type="button" style="margin-bottom: 25px;" onclick="crearBCP()" value="Nuevo BCP">
+		<h5 class="col-12" style="margin-bottom: 15px; text-align: center; margin-top: 15px; font-size: xx-large;">Gestor De Procesos</h5>
+	  	<div class="col-6 row" style=" margin-left: 0px; margin-right: 0px; ">
+	  		<select class="form-control form-control-lg col-6" style="margin-bottom: 25px;" name="" id="Procesos" onclick="GenerarProcesosTablas()"></select>
+			<input class="col-4 btn btn-info" type="button" style="height: calc(1.5em + .75rem + 10px);" onclick="crearBCP()" value="Nuevo BCP">
 			
-	  		<h5 class="col-12" style="margin-bottom: 15px; text-align: inherit; margin-top: 15px; font-size: x-large;text-transform: capitalize;">Nota: Ingrese Numero en el proceso</h5>
-	  		<input class="col-4 form-control" type="text" placeholder="Ingrese Los Ciclos Para Cargar Procesos" id="ciclos">
-	  		<input class="col-4 btn btn-warning"style=" height: calc(1.5em + .75rem + 2px); " type="button" onclick="cargarProcesos();" value="Cargar">
-	  		<input class="col-4 btn btn-danger" style=" height: calc(1.5em + .75rem + 2px); " type="button" onclick="crearProceso();" value="Nuevo">
-	  		<h5 class="col-6" style="margin-bottom: 15px; text-align: inherit; margin-top: 15px; font-size: x-large;text-transform: capitalize;">Al Cargar Se ejecutarán todos los Procesos del Banco de Procesos Selecionado</h5>
+	  		<h5 class="col-12" style="margin-bottom: 15px; text-align: inherit; margin-top: 15px; font-size: x-large;text-transform: capitalize;">Numero de Ciclos:</h5>
+	  		<input class="col-6 form-control form-control-lg" type="text" placeholder="Ciclos Para Cargar Procesos" id="ciclos">
+	  		<input class="col-4 btn btn-warning"style=" height: calc(1.5em + .75rem + 10px); " type="button" onclick="cargarProcesos();" value="Comenzar">
+	  		<!--h5 class="col-6" style="margin-bottom: 15px; text-align: inherit; margin-top: 15px; font-size: x-large;text-transform: capitalize;">Al Cargar Se ejecutarán todos los Procesos del Banco de Procesos Selecionado</h5-->
 		  </div>
-	<div class="col-12 row" style=" margin-left: 0px; margin-right: 0px; ">
-		<h5 class="col-4">Tabla De Banco Procesos</h5>
-		<h5 class="col-7" style=" margin-left: auto; ">Tabla de Procesos</h5>
-	</div>
-	<div class="col-4" style="overflow-y: scroll; height: 264.75px;">
-		<table>
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Nombre BCP</th>
-					<th>Procesos</th>
-				</tr>
-			</thead>
-			<tbody id="BCPProcesos">
-				<!--aqui se mostraran los banco de control de proceso-->
-			</tbody>
-		</table>
-	</div>
-	<!--aqui se muestra la lista de procesos con toda su informacion-->
-	<div class="col-7" style=" margin-left: auto; ">
-		<table>
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Estado</th>
-					<th>Prioridad</th>
-					<th>Instrucciones.</th>
-					<th>Bloqueo</th>
-					<th>Evento</th>
-				</tr>
-			</thead>
-			<tbody  id="procesos">
-				<!--aqui se muestra la lista de procesos-->
-			</tbody>
-		</table>
-	</div>
-	<div class="col-12 row" style=" margin-left: 0px; margin-right: 0px; ">
-		<h5 class="col-12">Desarrollo de los Procesos</h5>
-	</div>
-	<div class="col-12">
-		<!--tabla de procesos-->
-		<table class="estado">
-			<thead>
-				<tr>
-					<th>Procesos nuevos</th>
-					<th>Procesos Listos</th>
-					<th>Procesos ejecutandose</th>
-					<th>Procesos terminados</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr><!--aqui se muestra la lista de procesos-->
-					<td id="procesoNuevo"></td>
-					<td id="procesoListo"></td>
-					<td id="procesoEjecucion"></td>
-					<td id="procesoTerminado"></td>
-				</tr>
-				
-			</tbody>
-		</table>
-	</div>
-	<div class="col-12">
-		<table class="estadoB">
-			<thead>
+		<div class="col-4 offset-1">
+			<h5 class="col-12">Bancos De Procesos Existentes</h5>
+		
+		<div class="col-12" style="overflow-y: scroll; height: 184.75px;">
+			<table>
+				<thead>
 					<tr>
-						<th>Procesos bloqueados</th>	
+						<th>ID</th>
+						<th>Nombre BCP</th>
+						<th>Procesos</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr><!--aqui se muestra la lista de procesos bloqueados-->
-						<td id="procesoBloqueado"></td>
-					</tr>	
+				<tbody id="BCPProcesos">
+					<!--aqui se mostraran los bancos de control de proceso-->
 				</tbody>
 			</table>
-	</div>
+		</div>
 		</div>
 	</div>
+
+
+<hr>
+
+
+		<div class="row">
+	<!--aqui se muestra la lista de procesos con toda su informacion-->
+	
+			<div class="col-6">
+				<h5 class="col-12">Lista de Procesos</h5>
+				<div class="col-12">
+				<table>
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Estado</th>
+							<th>Prioridad</th>
+							<th>Instrucciones.</th>
+							<th>Bloqueo</th>
+							<th>Evento</th>
+						</tr>
+					</thead>
+					<tbody  id="procesos">
+
+						<!--aqui se muestra la lista de procesos-->
+						
+					</tbody>
+				</table>
+				</div>
+			</div>
+			<div class="col-4">		
+				<!--tabla de procesos-->
+					<div class="cc" id="mostrarCiclos" style="font-weight: bold;font-size: 18px;">Ciclo:---  Segmento:---</div>
+					<table class="estado">
+						<thead>
+							<tr>
+								<th>Procesos nuevos</th>
+								<th>Procesos Listos</th>
+								<th>Procesos ejecutandose</th>
+								<th>Procesos terminados</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr><!--aqui se muestra la lista de procesos-->
+								<td id="procesoNuevo"></td>
+								<td id="procesoListo"></td>
+								<td id="procesoEjecucion"></td>
+								<td id="procesoTerminado"></td>
+							</tr>
+							
+						</tbody>
+					</table>	
+			</div>
+			<div class="col-1">
+					<h5 class="">Bloqueos</h5>
+					<table class="estadoB">
+						<thead>
+								<tr>
+									<th>Procesos bloqueados</th>	
+								</tr>
+							</thead>
+							<tbody>
+								<tr><!--aqui se muestra la lista de procesos bloqueados-->
+									<td id="procesoBloqueado"></td>
+								</tr>	
+							</tbody>
+					</table>
+			</div>		
+		</div>
+	</div>
+
 </body>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/controlador.js"></script>
