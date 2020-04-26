@@ -198,7 +198,7 @@ $(document).ready(function(){
         //data:parametros,
         method : "POST",
 		success:function(respuesta){
-			$("#Procesos").html(`<option value="Null">Seleccione uno</option>`);
+			$("#Procesos").html(`<option value="Null">Seleccione uno de los BCP</option>`);
 			for( var i= 0; i<respuesta.length;i++){
 				$("#Procesos").append(`<option value="${i}">${respuesta[i].NombreProceso}</option>`);
 				$("#BCPProcesos").append(`
@@ -213,9 +213,38 @@ $(document).ready(function(){
 	});
 	document.getElementById("Procesos").innerHTML = "";
 })
-function holis(){
+function GenerarProcesosTablas(){
 	var parametros =
 	'NombreProceso='+$("#Procesos").val();
+	$.ajax({
+		url: "ajax/acciones.php?accion=ListarBCP",
+		dataType:"json",
+        //data:parametros,
+        method : "POST",
+		success:function(respuesta){
+			
+			$("#BCPProcesos").html(``);
+			for( var i= 0; i<respuesta.length;i++){
+				if(i==$("#Procesos").val()){
+					$("#BCPProcesos").append(`
+					<tr style=" background-color: aquamarine; ">
+						<td>${i}</td>
+						<td>${respuesta[i].NombreProceso}</td>
+						<td>${respuesta[i].CantidadDeProcesos}</td>
+					</tr>
+					`)
+				}else{
+				$("#BCPProcesos").append(`
+				<tr>
+					<td>${i}</td>
+					<td>${respuesta[i].NombreProceso}</td>
+					<td>${respuesta[i].CantidadDeProcesos}</td>
+				</tr>
+				`)
+				}
+			}
+		},
+	});
 	$.ajax({
 		url: "ajax/acciones.php?accion=ListarProcesosDeUnBCP",
 		dataType:"json",

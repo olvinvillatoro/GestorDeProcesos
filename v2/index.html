@@ -3,14 +3,21 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Gestor de procesos</title>
-
+	<link rel="icon" href="img/favicon.png ">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/all.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/Style.css">
 	<style>
     	th {
     		border: 2px solid black;
     		width: 100px;
+			background-color: #138496;
     	}
     	td {
     		text-align: center;
+			background-color: white;
+			border: 1px solid black;
     	}
     	.estado{
     		position: absolute;
@@ -24,23 +31,33 @@
     		left: 60%;
     		z-index: 3;
     		display: inline-block;
-    		color: red;
+    		color: rgb(255, 198, 11);
     	}
+		table{
+			width: 100%;
+		}
     </style>
 
 </head>
-<body>
-	<div>
-		<h5 style="margin-bottom: 0px;">Seleccione Un Control De Proceso</h5>
-		<select name="" id="Procesos" onclick="holis()"></select>
-		<input type="button" onclick="crearBCP()" value="Nuevo BCP">
-		<h5 style="margin-bottom: 0px;">Ingrese Valores Numericos Cantidad De Ciclos</h5>
-		<input type="text" placeholder="ciclos" id="ciclos">
-		<input type="button" onclick="cargarProcesos();" value="Cargar">
-		<input type="button" onclick="crearProceso();" value="Nuevo">
-		<br><br><br>
+<body style="background-image: linear-gradient(177deg,rgb(233, 241, 249),#37383b); background-attachment: fixed; color: black;">
+  <div class="container-fluid">
+	<div class="row">
+	  	<div class="col-12 row" style=" margin-left: 0px; margin-right: 0px; ">
+	  		<h5 class="col-12" style="margin-bottom: 15px; text-align: center; margin-top: 15px; font-size: xx-large;">Banco de Control De Proceso</h5>
+	  		<select class="form-control form-control-lg col-8" style="margin-bottom: 25px;" name="" id="Procesos" onclick="GenerarProcesosTablas()"></select>
+			<input class="col-4 btn btn-info" type="button" style="margin-bottom: 25px;" onclick="crearBCP()" value="Nuevo BCP">
+			
+	  		<h5 class="col-12" style="margin-bottom: 15px; text-align: inherit; margin-top: 15px; font-size: x-large;text-transform: capitalize;">Nota: Ingrese Numero en el proceso</h5>
+	  		<input class="col-4 form-control" type="text" placeholder="Ingrese Los Ciclos Para Cargar Procesos" id="ciclos">
+	  		<input class="col-4 btn btn-warning"style=" height: calc(1.5em + .75rem + 2px); " type="button" onclick="cargarProcesos();" value="Cargar">
+	  		<input class="col-4 btn btn-danger" style=" height: calc(1.5em + .75rem + 2px); " type="button" onclick="crearProceso();" value="Nuevo">
+	  		<h5 class="col-6" style="margin-bottom: 15px; text-align: inherit; margin-top: 15px; font-size: x-large;text-transform: capitalize;">Al Cargar Se ejecutarán todos los Procesos del Banco de Procesos Selecionado</h5>
+		  </div>
+	<div class="col-12 row" style=" margin-left: 0px; margin-right: 0px; ">
+		<h5 class="col-4">Tabla De Banco Procesos</h5>
+		<h5 class="col-7" style=" margin-left: auto; ">Tabla de Procesos</h5>
 	</div>
-	<div>
+	<div class="col-4" style="overflow-y: scroll; height: 264.75px;">
 		<table>
 			<thead>
 				<tr>
@@ -55,7 +72,8 @@
 		</table>
 	</div>
 	<!--aqui se muestra la lista de procesos con toda su informacion-->
-	<table>
+	<div class="col-7" style=" margin-left: auto; ">
+		<table>
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -72,30 +90,34 @@
 				
 			</tbody>
 		</table>
-		
-		
-			<!--tabla de procesos-->
-			<table class="estado">
+	</div>
+	<div class="col-12 row" style=" margin-left: 0px; margin-right: 0px; ">
+		<h5 class="col-12">Desarrollo de los Procesos</h5>
+	</div>
+	<div class="col-12">
+		<!--tabla de procesos-->
+		<table class="estado">
 			<thead>
-					<tr>
-						<th>Procesos nuevos</th>
-						<th>Procesos Listos</th>
-						<th>Procesos ejecutandose</th>
-						<th>Procesos terminados</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr><!--aqui se muestra la lista de procesos-->
-						<td id="procesoNuevo"></td>
-						<td id="procesoListo"></td>
-						<td id="procesoEjecucion"></td>
-						<td id="procesoTerminado"></td>
-					</tr>
-					
-				</tbody>
-			</table>
-
-			<table class="estadoB">
+				<tr>
+					<th>Procesos nuevos</th>
+					<th>Procesos Listos</th>
+					<th>Procesos ejecutandose</th>
+					<th>Procesos terminados</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr><!--aqui se muestra la lista de procesos-->
+					<td id="procesoNuevo"></td>
+					<td id="procesoListo"></td>
+					<td id="procesoEjecucion"></td>
+					<td id="procesoTerminado"></td>
+				</tr>
+				
+			</tbody>
+		</table>
+	</div>
+	<div class="col-12">
+		<table class="estadoB">
 			<thead>
 					<tr>
 						<th>Procesos bloqueados</th>	
@@ -104,12 +126,12 @@
 				<tbody>
 					<tr><!--aqui se muestra la lista de procesos bloqueados-->
 						<td id="procesoBloqueado"></td>
-					</tr>
-					
-					
+					</tr>	
 				</tbody>
 			</table>
-		
+	</div>
+		</div>
+	</div>
 </body>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/controlador.js"></script>
