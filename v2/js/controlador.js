@@ -97,9 +97,7 @@ function nuevos(){
 		url: "ajax/acciones.php?accion=2",
 		dataType: 'json',
 		success:function(resultado){
-	
 				$("#procesoNuevo").html("");
-
 					for(i in resultado) {
 							if (resultado[i].estado == 0) {
 							$("#procesoNuevo").append('<tr><td>'+
@@ -200,7 +198,7 @@ $(document).ready(function(){
         //data:parametros,
         method : "POST",
 		success:function(respuesta){
-			$("#Procesos").html(``);
+			$("#Procesos").html(`<option value="Null">Seleccione uno</option>`);
 			for( var i= 0; i<respuesta.length;i++){
 				$("#Procesos").append(`<option value="${i}">${respuesta[i].NombreProceso}</option>`);
 				$("#BCPProcesos").append(`
@@ -216,14 +214,16 @@ $(document).ready(function(){
 	document.getElementById("Procesos").innerHTML = "";
 })
 function holis(){
+	var parametros =
+	'NombreProceso='+$("#Procesos").val();
+	console.log(parametros);
 	$.ajax({
-		url: "ajax/acciones.php?accion=ListarBCP",
+		url: "ajax/acciones.php?accion=ListarProcesosDeUnBCP",
 		dataType:"json",
-        //data:parametros,
+        data:parametros,
         method : "POST",
 		success:function(respuesta){
 			console.log(respuesta);
-				
 			},
 	});
 }

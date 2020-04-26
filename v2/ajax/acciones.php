@@ -54,13 +54,23 @@ case '3'://este lo cree en caso de necsitar borrar todos los datos de un archivo
 		$json_arr = json_decode($data, true);
 		$Indices = Count($json_arr);
 		$codigo = $Indices + 1;
-		$json_arr[] = array('NombreProceso'=>'BCP_'.$codigo.'','CantidadDeProcesos'=>rand(1,10));
+		$ProcesosRang = rand(1,10);
+		$json_arr[] = array('NombreProceso'=>'BCP_'.$codigo.'','CantidadDeProcesos'=>''.$ProcesosRang.'');
 		file_put_contents("../Data/ProcesosJson/Procesos.json",json_encode($json_arr));
-		
+		for($i=0; $i<$ProcesosRang;$i++){
+			$datos = rand(1000,3000)."/". 0 ."/".rand(1,3)."/".rand(40,99)."/".rand(20,99)."/".rand(3,5).";";
+			$archivo = fopen("../Data/ProcesosTxt/BCP_".$codigo.".txt","a") or die("problemas al crear");
+			fwrite($archivo, $datos);
+			fclose($archivo);
+		}
 	break;
 	case 'ListarBCP':
 		include("../class/Proceso.php");
 		echo Proceso::RetornarBCP();
+	break;
+	case 'ListarProcesosDeUnBCP':
+		include("../class/Proceso.php");
+		echo Proceso::SeleccionOneBCP($_POST['NombreProceso']);
 	break;
 }
 	
