@@ -216,14 +216,26 @@ $(document).ready(function(){
 function holis(){
 	var parametros =
 	'NombreProceso='+$("#Procesos").val();
-	console.log(parametros);
 	$.ajax({
 		url: "ajax/acciones.php?accion=ListarProcesosDeUnBCP",
 		dataType:"json",
         data:parametros,
         method : "POST",
 		success:function(respuesta){
-			console.log(respuesta);
+			$("#procesos").html("");
+				for(i in respuesta) {
+					if (i < 10) {
+					$("#procesos").append('<tr><td>'+
+						respuesta[i].id+'</td><td>'+
+						respuesta[i].estado+'</td><td>'+
+						respuesta[i].prioridad+'</td><td>'+
+						respuesta[i].cantidad+'</td><td>'+
+						respuesta[i].bloqueo+'</td><td>'+
+						respuesta[i].evento+'</td></tr>');
+					}else{
+						alert("solo se permiten 10 procesos");
+					}
+				}
 			},
 	});
 }
