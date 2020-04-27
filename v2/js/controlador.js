@@ -37,6 +37,8 @@ function cargarProcesos(){
 }
 //esta funcion va cambiando el estado de los procesos y actualizando los datos de las tablas
 function ciclos(resultado){
+	var Prioridad_1 = "";
+	var Prioridad_2 = "";
 	var nCiclos = 0;
 	var nSegmentos = 1;
 	var eS = 0;
@@ -57,9 +59,8 @@ function ciclos(resultado){
 		$("#mostrarCiclos").html("Ciclo:"+parseInt(nCiclos)+"  "+"Segmento:"+parseInt(nSegmentos)); //muestra los ciclos en pantalla 
 
 	    //console.log("Ciclo:"+nCiclos);
-	    //console.log("segmento:"+nSegmentos);
+		//console.log("segmento:"+nSegmentos);
 	    for (var j = 0; j < resultado.length; j++) {//aqui se cambian los estados
-	    	
 	    	if (resultado[j].estado==2) {//este if simula la  ejecucion de las instrucciones
 				//se restan 1 instrucciones por ciclo al total de instrucciones de cada proceso;
 				resultado[j].cantidad = parseInt(resultado[j].cantidad)-1;
@@ -76,14 +77,19 @@ function ciclos(resultado){
 					hDD = parseInt(hDD)+1;
 				}
 				
-				console.log(eS+" "+hDD)
+				//console.log(eS+" "+hDD)
 			}
 
 	    	/*en este if se genera un valor de 0 a 100 y si es mayor que 50 y han pasado 5 ciclos
 	    	el estado cambia delo contrario se mantiene en el mismo estado*/
 			//if (Math.floor(Math.random() * 101) > 50) {
+					if((resultado[j].prioridad == 1 || resultado[j].prioridad == "1") && (resultado[j].estado == 4 ||resultado[j].estado == "4")){
+						Prioridad_1 = "YA"; 
+					}
+					if((resultado[j].prioridad == 2 || resultado[j].prioridad == "2") && (resultado[j].estado == 4 ||resultado[j].estado == "4")){
+						Prioridad_2 = "YA"; 
+					}
 				if (resultado[j].estado<=3 && nCiclos==5) {//se encarga de que el estado se 4 como maximo
-
 					if (resultado[j].estado==2) {//cambia el estado de un proceso en ejecucion (bloqueado o terminado)
 						if (resultado[j].cantidad < 1){//si cantidad de instrcciones es cero = proceso terminado (estado = 4)
 							resultado[j].estado = parseInt(resultado[j].estado)+2;
@@ -104,17 +110,23 @@ function ciclos(resultado){
 							}
 
 						}else{//prioridades para cambiar de estado
-
-							if (Math.floor(Math.random() * 101) > 50) {
-								resultado[j].estado = parseInt(resultado[j].estado)+1;	
-							} 
-							
+							if(resultado[j].prioridad == 1 && resultado[j].estado < 4){
+								resultado[j].estado = parseInt(resultado[j].estado)+1;
+							}else{
+								if((Prioridad_1!="")){
+									if ( (resultado[j].prioridad == 2||resultado[j].prioridad == "2")) {
+										resultado[j].estado = parseInt(resultado[j].estado)+1;	
+									}
+								}
+								if((Prioridad_2!="")){
+									if ( (resultado[j].prioridad == 3||resultado[j].prioridad == "3")) {
+										resultado[j].estado = parseInt(resultado[j].estado)+1;	
+									}
+								}
+							}
 						}
 					}
 				}
-
-	
-		//}
 		}
 
 
