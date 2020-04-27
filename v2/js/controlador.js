@@ -128,7 +128,7 @@ function ciclos(resultado){
 					for(var m =0;m<ContadorP3;m++ ){
 						if(resultado[ArrayContadorP3[m]].estado==4||resultado[ArrayContadorP3[m]].estado=="4"){
 							if(ContadorP3==CompararContP3){
-								$("#procesos").html(`<h5 style=" text-align: center; color: white; font-size: x-large; ">Fin De Todos Los Procesos</h5>`);
+								$("#ProcesoCompleto").html(`<h5 style=" text-align: center; color: white; font-size: x-large; ">Fin De Todos Los Procesos</h5>`);
 								//alert("Fin De Todos Los Procesos");
 							}
 							CompararContP3= CompararContP3+1;
