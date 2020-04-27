@@ -37,6 +37,24 @@ function cargarProcesos(){
 }
 //esta funcion va cambiando el estado de los procesos y actualizando los datos de las tablas
 function ciclos(resultado){
+	var ContadorP1 = 0, ContadorP2 = 0,ContadorP3 = 0;
+	var ArrayContadorP1= [],ArrayContadorP2=[],ArrayContadorP3=[];
+	for(var r=0;r<resultado.length;r++){
+		if(resultado[r].prioridad=="1"){
+			ArrayContadorP1[ContadorP1] = r;
+			//console.log(r);
+			ContadorP1=ContadorP1+1;
+		}else{
+			if(resultado[r].prioridad=="2"){
+			ArrayContadorP2[ContadorP2] = r;
+				ContadorP2=ContadorP2+1;
+			}
+			if(resultado[r].prioridad=="3"){
+			ArrayContadorP3[ContadorP3] = r;
+				ContadorP3=ContadorP3+1;
+			}
+		}
+	}
 	var Prioridad_1 = "";
 	var Prioridad_2 = "";
 	var nCiclos = 0;
@@ -83,12 +101,40 @@ function ciclos(resultado){
 	    	/*en este if se genera un valor de 0 a 100 y si es mayor que 50 y han pasado 5 ciclos
 	    	el estado cambia delo contrario se mantiene en el mismo estado*/
 			//if (Math.floor(Math.random() * 101) > 50) {
-					if((resultado[j].prioridad == 1 || resultado[j].prioridad == "1") && (resultado[j].estado == 4 ||resultado[j].estado == "4")){
-						Prioridad_1 = "YA"; 
+				if((resultado[j].prioridad == 1 || resultado[j].prioridad == "1") && (resultado[j].estado == 4 ||resultado[j].estado == "4")){
+					var CompararContP1 = 1;
+					for(var m =0;m<ContadorP1;m++ ){
+						if(resultado[ArrayContadorP1[m]].estado==4||resultado[ArrayContadorP1[m]].estado=="4"){
+							if(ContadorP1==CompararContP1){
+								Prioridad_1 = "YA";
+							}
+							CompararContP1= CompararContP1+1;
+						}
 					}
-					if((resultado[j].prioridad == 2 || resultado[j].prioridad == "2") && (resultado[j].estado == 4 ||resultado[j].estado == "4")){
-						Prioridad_2 = "YA"; 
+				}
+				if((resultado[j].prioridad == 2 || resultado[j].prioridad == "2") && (resultado[j].estado == 4 ||resultado[j].estado == "4")){
+					var CompararContP2 = 1;
+					for(var m =0;m<ContadorP2;m++ ){
+						if(resultado[ArrayContadorP2[m]].estado==4||resultado[ArrayContadorP2[m]].estado=="4"){
+							if(ContadorP2==CompararContP2){
+								Prioridad_2 = "YA";
+							}
+							CompararContP2= CompararContP2+1;
+						}
 					}
+				}
+				if((resultado[j].prioridad == 3 || resultado[j].prioridad == "3") && (resultado[j].estado == 4 ||resultado[j].estado == "4")){
+					var CompararContP3 = 1;
+					for(var m =0;m<ContadorP3;m++ ){
+						if(resultado[ArrayContadorP3[m]].estado==4||resultado[ArrayContadorP3[m]].estado=="4"){
+							if(ContadorP3==CompararContP3){
+								$("#procesos").html(`<h5 style=" text-align: center; color: white; font-size: x-large; ">Fin De Todos Los Procesos</h5>`);
+								//alert("Fin De Todos Los Procesos");
+							}
+							CompararContP3= CompararContP3+1;
+						}
+					}
+				}
 				if (resultado[j].estado<=3 && nCiclos==5) {//se encarga de que el estado se 4 como maximo
 					if (resultado[j].estado==2) {//cambia el estado de un proceso en ejecucion (bloqueado o terminado)
 						if (resultado[j].cantidad < 1){//si cantidad de instrcciones es cero = proceso terminado (estado = 4)
