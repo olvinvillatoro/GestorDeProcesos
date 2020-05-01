@@ -37,8 +37,8 @@ function cargarProcesos(){
 }
 //esta funcion va cambiando el estado de los procesos y actualizando los datos de las tablas
 function ciclos(resultado){
-	var ContadorP1 = 0, ContadorP2 = 0,ContadorP3 = 0;
-	var ArrayContadorP1= [],ArrayContadorP2=[],ArrayContadorP3=[];
+	var ContadorP1 = 0, ContadorP2 = 0,ContadorP3 = 0;contadorSegmentos = 1;
+	var ArrayContadorP1= [],ArrayContadorP2=[],ArrayContadorP3=[];ArrayContadorSegmenetos=[];  
 	for(var r=0;r<resultado.length;r++){
 		if(resultado[r].prioridad=="1"){
 			ArrayContadorP1[ContadorP1] = r;
@@ -55,12 +55,18 @@ function ciclos(resultado){
 			}
 		}
 	}
+
 	var Prioridad_1 = "";
 	var Prioridad_2 = "";
+	var avanzarP2 = "";
+	var avanzarP3 = "";
 	var nCiclos = 0;
-	var nSegmentos = 1;
+	var nSegmentos = 0;
+	var nSeg = 0;
 	var eS = 0;
 	var hDD = 0;
+	var SSsegmento=0;
+	var SSCiclos=0;
 	var cant = $("#ciclos").val();//valor de la caja de texto (cantidad de ciclos)
 
 	(function ciclo(i) {//esta hace que los ciclos sea lentos para poder ver los cambios
@@ -73,14 +79,15 @@ function ciclos(resultado){
 	  	}else{
 	  		 nCiclos = parseInt(nCiclos)+1; 
 	  	}
+	  	
+	  	 //muestra los ciclos en pantalla 
+		$("#mostrarCiclos").html("Ciclo:"+parseInt(nCiclos)+"  "+"Segmento:"+parseInt(nSegmentos));
 
-		$("#mostrarCiclos").html("Ciclo:"+parseInt(nCiclos)+"  "+"Segmento:"+parseInt(nSegmentos)); //muestra los ciclos en pantalla 
+	    for (var j = 0; j < resultado.length; j++) {
+			
 
-	    //console.log("Ciclo:"+nCiclos);
-		//console.log("segmento:"+nSegmentos);
-	    for (var j = 0; j < resultado.length; j++) {//aqui se cambian los estados
 	    	if (resultado[j].estado==2) {//este if simula la  ejecucion de las instrucciones
-				//se restan 1 instrucciones por ciclo al total de instrucciones de cada proceso;
+				//se restan 5 instrucciones por ciclo al total de instrucciones de cada proceso;
 				resultado[j].cantidad = parseInt(resultado[j].cantidad)-1;
 				if (resultado[j].cantidad<1) {
 					resultado[j].cantidad = 0;//quedan cero instrucciones del total
@@ -97,53 +104,111 @@ function ciclos(resultado){
 				
 				//console.log(eS+" "+hDD)
 			}
-
-	    	/*en este if se genera un valor de 0 a 100 y si es mayor que 50 y han pasado 5 ciclos
-	    	el estado cambia delo contrario se mantiene en el mismo estado*/
-			//if (Math.floor(Math.random() * 101) > 50) {
+			/*este if permite que los procesos con prioridad 2 vancen al estado listo cuando los procesos con
+			prioridad 1 estan en estado ejecutandose*/
+			if((resultado[j].prioridad == 1 || resultado[j].prioridad == "1") && (resultado[j].estado == 2 ||resultado[j].estado == "2")){
+					var CCP2 = 1;
+					for(var m =0;m<ContadorP1;m++ ){
+						if(resultado[ArrayContadorP1[m]].estado==2||resultado[ArrayContadorP1[m]].estado=="2"){
+							if(ContadorP1==CCP2){
+								avanzarP2 = "listo";
+							}
+							CCP2= CCP2+1;
+						}
+					}
+				}
+			/*este if permite que los procesos con prioridad 3 vancen al estado listo cuando los procesos con
+			prioridad 2 estan en estado ejecutandose*/
+			if((resultado[j].prioridad == 2 || resultado[j].prioridad == "2") && (resultado[j].estado == 2 ||resultado[j].estado == "2")){
+				var CCP3 = 1;
+				for(var m =0;m<ContadorP2;m++ ){
+					if(resultado[ArrayContadorP2[m]].estado==2||resultado[ArrayContadorP2[m]].estado=="2"){
+						if(ContadorP2==CCP3){
+							avanzarP3 = "listo";
+						}
+						CCP3= CCP3+1;
+					}
+				}
+			}
+	   
+			/*este if comprueba que todos los procesos de prioridad 1 estan terminado para comenzar a trabajar 
+			en los procesos de prioridad 2*/
 				if((resultado[j].prioridad == 1 || resultado[j].prioridad == "1") && (resultado[j].estado == 4 ||resultado[j].estado == "4")){
 					var CompararContP1 = 1;
 					for(var m =0;m<ContadorP1;m++ ){
 						if(resultado[ArrayContadorP1[m]].estado==4||resultado[ArrayContadorP1[m]].estado=="4"){
 							if(ContadorP1==CompararContP1){
 								Prioridad_1 = "YA";
+								avanzarP2 = "";
 							}
 							CompararContP1= CompararContP1+1;
 						}
 					}
 				}
+				/*este if comprueba que todos los procesos de prioridad 2 estan terminado para comenzar a trabajar 
+				en los procesos de prioridad 3*/
 				if((resultado[j].prioridad == 2 || resultado[j].prioridad == "2") && (resultado[j].estado == 4 ||resultado[j].estado == "4")){
 					var CompararContP2 = 1;
 					for(var m =0;m<ContadorP2;m++ ){
 						if(resultado[ArrayContadorP2[m]].estado==4||resultado[ArrayContadorP2[m]].estado=="4"){
 							if(ContadorP2==CompararContP2){
 								Prioridad_2 = "YA";
+								avanzarP3 = "";
 							}
 							CompararContP2= CompararContP2+1;
 						}
 					}
 				}
-				if((resultado[j].prioridad == 3 || resultado[j].prioridad == "3") && (resultado[j].estado == 4 ||resultado[j].estado == "4")){
+				/*este if comprueba que todos los procesos de prioridad 3 estan terminados para para mostrar una 
+				notificacion de que todos los procesos se completaron*/
+				if((resultado[j].prioridad == 1 || resultado[j].prioridad == "1") && (resultado[j].estado == 4 ||resultado[j].estado == "4")){
 					var CompararContP3 = 1;
 					for(var m =0;m<ContadorP3;m++ ){
 						if(resultado[ArrayContadorP3[m]].estado==4||resultado[ArrayContadorP3[m]].estado=="4"){
 							if(ContadorP3==CompararContP3){
-								$("#ProcesoCompleto").html(`<h5 style=" text-align: center; color: white; font-size: x-large; ">Fin De Todos Los Procesos</h5>`);
 								//alert("Fin De Todos Los Procesos");
+								if(SSsegmento==0 && SSCiclos==0){
+									SSsegmento = nSegmentos;
+									SSCiclos = nCiclos;
+								$("#ProcesoCompleto").html(`<h5 style=" text-align: center; color: white; font-size: x-large; ">Fin De Todos Los Procesos</h5>
+															<div>
+																<h5 style=" font-size: large; color: white; text-align: center;">
+																	Ciclos requeridos: <span>${(nSegmentos)*5+nCiclos}</span>
+																</h5>
+															</div>`);
+								}
 							}
 							CompararContP3= CompararContP3+1;
 						}
 					}
 				}
-				if (resultado[j].estado<=3 && nCiclos==5) {//se encarga de que el estado se 4 como maximo
+				/*se encarga de que el estado se 4 como maximo y cambia los estados*/
+				if (resultado[j].estado<=3 && nCiclos==5) {
 					if (resultado[j].estado==2) {//cambia el estado de un proceso en ejecucion (bloqueado o terminado)
+
+						nSeg = parseInt(nSeg)+1;//contador de segmentos
+
 						if (resultado[j].cantidad < 1){//si cantidad de instrcciones es cero = proceso terminado (estado = 4)
 							resultado[j].estado = parseInt(resultado[j].estado)+2;
-						}else{//probabilidad de que se bloquee por esperar un evento
-							if (resultado[j].cantidad == resultado[j].bloqueo && resultado[j].evento != 4) {
-							resultado[j].estado = parseInt(resultado[j].estado)+1;
+						}else{
+							//bloqueo por esperar un evento E/S o HDD
+							if ((resultado[j].cantidad == resultado[j].bloqueo) && resultado[j].evento != 4) {
+								resultado[j].estado = parseInt(resultado[j].estado)+1;
+							}else{
+							/*este if reduce la prioridad de un proceso si se ejecuta durante 3 segmentos seguidos*/
+								if (nSeg == 3) {
+
+									resultado[j].estado = parseInt(resultado[j].estado)-1;
+									resultado[j].prioridad = parseInt(resultado[j].prioridad)+1;
+									
+									nSeg = 1;
+									Prioridad_1 = "reducida";
+									Prioridad_2 = "reducida"
+									avanzarP2 = "";
+									avanzarP3 = "";
+								}
 							}
-						}
+						}		
 					}else{
 						if (resultado[j].estado==3) {//eventos para desbloquear procesos
 							if (resultado[j].evento == 3 && eS == 13) {//evento E/S y trancurridos 13 ciclos
@@ -156,19 +221,33 @@ function ciclos(resultado){
 							}
 
 						}else{//prioridades para cambiar de estado
+
 							if(resultado[j].prioridad == 1 && resultado[j].estado < 4){
 								resultado[j].estado = parseInt(resultado[j].estado)+1;
-							}else{
-								if((Prioridad_1!="")){
-									if ( (resultado[j].prioridad == 2||resultado[j].prioridad == "2")) {
-										resultado[j].estado = parseInt(resultado[j].estado)+1;	
-									}
+							}
+
+							if((Prioridad_1!="")){
+								if ( (resultado[j].prioridad == 2||resultado[j].prioridad == "2")) {
+									resultado[j].estado = parseInt(resultado[j].estado)+1;
+									resultado[j].prioridad = parseInt(resultado[j].prioridad)-1;	
 								}
-								if((Prioridad_2!="")){
-									if ( (resultado[j].prioridad == 3||resultado[j].prioridad == "3")) {
-										resultado[j].estado = parseInt(resultado[j].estado)+1;	
-									}
+							}
+							if((Prioridad_2!="")){
+								if ( (resultado[j].prioridad == 3||resultado[j].prioridad == "3")) {
+									resultado[j].estado = parseInt(resultado[j].estado)+1;	
+									resultado[j].prioridad = parseInt(resultado[j].prioridad)-1;
 								}
+							}
+
+							if (avanzarP2 == "listo") {
+								if ( (resultado[j].prioridad == 2||resultado[j].prioridad == "2")) {
+										resultado[j].estado = 1;	
+									}
+							}
+							if (avanzarP3 == "listo") {
+								if ( (resultado[j].prioridad == 3||resultado[j].prioridad == "3")) {
+										resultado[j].estado = 1;	
+									}
 							}
 						}
 					}
@@ -197,7 +276,7 @@ function ciclos(resultado){
 			}
 			              
 	    if (--i) ciclo(i);   
-	  }, 200)
+	  }, 200)//duracion de cada ciclo en milisegundos 1000ms = 1s
 	})(cant); 
 }                  
 
@@ -312,7 +391,7 @@ $(document).ready(function(){
         //data:parametros,
         method : "POST",
 		success:function(respuesta){
-			$("#Procesos").html(`<option value="Null">Seleccione uno de los BCP</option>`);
+			$("#Procesos").html(`<option value="Null">Seleccionar BCP</option>`);
 			for( var i= 0; i<respuesta.length;i++){
 				$("#Procesos").append(`<option value="${i}">${respuesta[i].NombreProceso}</option>`);
 				$("#BCPProcesos").append(`
@@ -331,35 +410,7 @@ $(document).ready(function(){
 function GenerarProcesosTablas(){
 	var parametros =
 	'NombreProceso='+$("#Procesos").val();
-	/*$.ajax({
-		url: "ajax/acciones.php?accion=ListarBCP",
-		dataType:"json",
-        //data:parametros,
-        method : "POST",
-		success:function(respuesta){
-			
-			$("#BCPProcesos").html(``);
-			for( var i= 0; i<respuesta.length;i++){
-				if(i==$("#Procesos").val()){
-					$("#BCPProcesos").append(`
-					<tr style=" background-color: aquamarine; ">
-						<td>${i}</td>
-						<td>${respuesta[i].NombreProceso}</td>
-						<td>${respuesta[i].CantidadDeProcesos}</td>
-					</tr>
-					`)
-				}else{
-				$("#BCPProcesos").append(`
-				<tr>
-					<td>${i}</td>
-					<td>${respuesta[i].NombreProceso}</td>
-					<td>${respuesta[i].CantidadDeProcesos}</td>
-				</tr>
-				`)
-				}
-			}
-		},
-	});*/
+	
 	$.ajax({
 		url: "ajax/acciones.php?accion=ListarProcesosDeUnBCP",
 		dataType:"json",

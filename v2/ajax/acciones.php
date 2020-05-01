@@ -58,17 +58,18 @@ case '3'://este lo cree en caso de necsitar borrar todos los datos de un archivo
 		$json_arr[] = array('NombreProceso'=>'BCP_'.$codigo.'','CantidadDeProcesos'=>''.$ProcesosRang.'');
 		file_put_contents("../Data/ProcesosJson/Procesos.json",json_encode($json_arr));
 		for($i=0; $i<$ProcesosRang;$i++){
-			$datos = rand(1000,3000)."/". 0 ."/".rand(1,3)."/".rand(40,99)."/".rand(20,99)."/".rand(3,5).";";
+			$instrucciones = rand(40,99);
+			$datos = rand(1000,3000)."/". 0 ."/".rand(1,3)."/".$instrucciones."/".($instrucciones-25)."/".rand(3,5).";";
 			$archivo = fopen("../Data/ProcesosTxt/BCP_".$codigo.".txt","a") or die("problemas al crear");
 			fwrite($archivo, $datos);
 			fclose($archivo);
 		}
 	break;
-	case 'ListarBCP':
+	case 'ListarBCP'://carga el select de los BCP
 		include("../class/Proceso.php");
 		echo Proceso::RetornarBCP();
 	break;
-	case 'ListarProcesosDeUnBCP':
+	case 'ListarProcesosDeUnBCP'://carga la tabla con nombre y numero de procesos de un BCP
 		include("../class/Proceso.php");
 		echo Proceso::SeleccionOneBCP($_POST['NombreProceso']);
 	break;

@@ -44,8 +44,8 @@
 	  		<select class="form-control form-control-lg col-6" style="margin-bottom: 25px;" name="" id="Procesos" onclick="GenerarProcesosTablas()"></select>
 			<input class="col-4 btn btn-info" type="button" style="height: calc(1.5em + .75rem + 10px);" onclick="crearBCP()" value="Nuevo BCP">
 			
-	  		<h5 class="col-12" style="margin-bottom: 15px; text-align: inherit; margin-top: 15px; font-size: x-large;text-transform: capitalize;">Numero de Ciclos:</h5>
-	  		<input class="col-6 form-control form-control-lg" type="text" placeholder="Ciclos Para Cargar Procesos" id="ciclos">
+	  		
+	  		<input class="col-6 form-control form-control-lg" type="text" placeholder="Numero de Ciclos" id="ciclos">
 	  		<input class="col-4 btn btn-warning"style=" height: calc(1.5em + .75rem + 10px); " type="button" onclick="cargarProcesos();" value="Comenzar">
 	  		<!--h5 class="col-6" style="margin-bottom: 15px; text-align: inherit; margin-top: 15px; font-size: x-large;text-transform: capitalize;">Al Cargar Se ejecutarán todos los Procesos del Banco de Procesos Selecionado</h5-->
 		  </div>
@@ -137,6 +137,7 @@
 					</table>
 			</div>		
 			<div class="col-12" id="ProcesoCompleto"></div>
+			
 		</div>
 	</div>
 
